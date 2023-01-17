@@ -6,21 +6,21 @@
       <el-input v-model="loginUser.email" placeholder="邮箱区分大小写" />
     </el-form-item>
     <el-form-item label="密码" prop="password">
-      <el-input v-model="loginUser.password" type="password" placeholder="Enter Password..." show-password/>
+      <el-input v-model="loginUser.password" type="password" placeholder="Enter Password..." show-password />
     </el-form-item>
     <el-form-item>
       <el-button @click="handleLogin" type="primary" class="w-full bg-primary ml-13">登录</el-button>
     </el-form-item>
-    <div class="text-right text-12 text-333" >
-            <p>忘记密码？ <router-link to="/Retreve" class="text-#409eff">找回密码</router-link></p>
-          </div>
+    <div class="text-right text-12 text-333">
+      <p>忘记密码？ <router-link to="/Retreve" class="text-#409eff">找回密码</router-link></p>
+    </div>
   </el-form>
 
 
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { ElButton, ElForm, ElFormItem, ElInput, ElMessage, type FormInstance } from 'element-plus'
 import router from '@/router';
 
@@ -31,6 +31,16 @@ const loginUser = ref({
   password: '',
 })
 
+const email = (rule: any, value: any, callback: any) => {
+  const emailreg = /^([a-zA-Z0-9]+[-_\.]?)+@[a-zA-Z0-9]+\.[a-z]+$/
+  if (!emailreg.test(value)) {
+    callback(new Error("邮箱格式不正确"))
+  } else {
+    callback()
+  }
+}
+
+
 const validateLoginPassword = (rule: any, value: any, callback: any) => {
   const passwordreg = /(?=.\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])/;
   if (!passwordreg.test(value)) {
@@ -40,7 +50,7 @@ const validateLoginPassword = (rule: any, value: any, callback: any) => {
   }
 }
 
-const loginRules = ref({
+const loginRules = reactive({
   email: [
     {
       required: true,
@@ -48,7 +58,7 @@ const loginRules = ref({
       trigger: 'blur'
     },
     {
-      type: 'email',
+      validator: email,
       message: '请输入正确邮箱格式...',
       trigger: 'blur'
     }
@@ -78,11 +88,11 @@ function handleLogin() {
   loginForm.value?.validate((valid) => {
     if (valid) {
       const token = {
-        'email':loginUser.value.email,
-        'password':loginUser.value.password
+        'email': loginUser.value.email,
+        'password': loginUser.value.password
       }
       localStorage.token = JSON.stringify(token)
-      router.push({path:'/index'})
+      router.push({ path: '/index' })
     } else {
       ElMessage.error('请输入邮箱或密码')
       return false

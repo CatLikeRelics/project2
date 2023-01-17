@@ -14,20 +14,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, Transition } from "vue";
+import { reactive, ref, Transition } from "vue";
 import { RouterLink } from "vue-router";
 import Email from "../components/RetrievePassword/Email.vue";
 import Validation from "../components/RetrievePassword/Validation.vue";
 import ResetPassword from "../components/RetrievePassword/ResetPassword.vue"
  
-const componentNames = ref(Email)
+const componentNames = reactive(Email)
 
 function nextValidation() {
-    componentNames.value = Validation
+    componentNames.value = Validation 
 }
 
 function nextResetPassword(){
-    componentNames.value = ResetPassword
+    componentNames.value = ResetPassword 
 }
 
 </script>

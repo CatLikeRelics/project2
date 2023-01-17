@@ -54,19 +54,23 @@ import { onMounted, reactive, ref, Transition } from 'vue';
 import Login from '../components/LoginRegister/Login.vue'
 import Register from '../components/LoginRegister/Register.vue'
 import { useUserStore } from '@/store/store';
+import { useState } from '@/store/state';
 import {  Get, type Email, type User } from '@/utils/api';
 import router from '@/router';
 
 const signUpMode = ref(false)
-const componentName = ref(Login)
-const dialogTableVisible = ref(false)
+const componentName = reactive(Login)
+
 const dialogWidth = ref("30%")
 const timer = ref(0)
 const send = ref(false)
 const userStore = useUserStore()
 const { RegisterEmail, Users } = userStore
 
+const state = useState()
+const { dialogState } = state
 
+const dialogTableVisible = ref(false)
 
 const registerVaildationForm = ref<FormInstance>()
 const registerValidation = ref({ validationCode: '' })

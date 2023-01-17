@@ -29,6 +29,7 @@ import { useUserStore } from '@/store/store';
 import type { Email,User } from '@/utils/api';
 
 
+
 const registerForm = ref<FormInstance>()
 const registerUser = ref({
     name: '',
@@ -40,6 +41,14 @@ const registerUser = ref({
 const UserStore = useUserStore()
 const {RegisterEmail} = UserStore
 
+const email = (rule: any, value: any, callback: any) => {
+  const emailreg = /^([a-zA-Z0-9]+[-_\.]?)+@[a-zA-Z0-9]+\.[a-z]+$/
+  if (!emailreg.test(value)) {
+    callback(new Error("邮箱格式不正确"))
+  } else {
+    callback()
+  }
+}
 
 const validateRegisterPassword = (rule: any, value: any, callback: any) => {
     const passwordreg = /(?=.\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])/;
@@ -81,7 +90,7 @@ const registerRules = ref({
             trigger: 'blur'
         },
         {
-            type: 'email',
+            validator: email,
             message: '请输入正确邮箱格式...',
             trigger: 'blur'
         }
@@ -157,7 +166,7 @@ function handleRegister() {
 
 </script>
 
-<script scope>
+<style scope>
 
-</script>
+</style>
     
