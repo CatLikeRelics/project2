@@ -20,7 +20,7 @@ import Email from "../components/RetrievePassword/Email.vue";
 import Validation from "../components/RetrievePassword/Validation.vue";
 import ResetPassword from "../components/RetrievePassword/ResetPassword.vue"
  
-const componentNames = reactive(Email)
+const componentNames = ref<any>(Email)
 
 function nextValidation() {
     componentNames.value = Validation 

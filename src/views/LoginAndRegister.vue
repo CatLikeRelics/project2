@@ -59,7 +59,7 @@ import {  Get, type Email, type User } from '@/utils/api';
 import router from '@/router';
 
 const signUpMode = ref(false)
-const componentName = reactive(Login)
+const componentName  = ref<any>(Login)
 
 const dialogWidth = ref("30%")
 const timer = ref(0)
