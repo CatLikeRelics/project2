@@ -55,7 +55,7 @@ import Login from '../components/LoginRegister/Login.vue'
 import Register from '../components/LoginRegister/Register.vue'
 import { useUserStore } from '@/store/store';
 import { useState } from '@/store/state';
-import {  Get, type Email, type User } from '@/utils/api';
+import {  Get, Post, type Email, type User } from '@/utils/api';
 import router from '@/router';
 
 const signUpMode = ref(false)
@@ -144,7 +144,8 @@ function register() {
                 if (response.data == true) {
                     console.log(response.data)
                     const user = Users[0]
-                    request.post('/user/register', JSON.stringify(user)).then(response => {
+                    Post.register(user).then(response =>{
+                    // request.post('/user/register', JSON.stringify(user)).then(response => {
                         if (response.data == 1) {
                             dialogTableVisible.value = false
                             userStore.removeRegisterUsers(user)

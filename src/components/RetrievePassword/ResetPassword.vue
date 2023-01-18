@@ -22,7 +22,7 @@ import { ElForm, ElFormItem, ElInput, ElButton, type FormInstance, ElMessage, El
 import request from '@/utils/request';
 import { useUserStore } from '@/store/store';
 import router from '@/router';
-import type { Email } from '@/utils/api';
+import { Put, type Email } from '@/utils/api';
 
 const resetForm = ref<FormInstance>()
 const resetUser = ref({ password: '' })
@@ -63,13 +63,10 @@ const resetRules = reactive({
 function Reset() {
     resetForm.value?.validate((valid) => {
         if (valid) {
-
             const password = resetUser.value.password
-            
-
-            request.put('/user/reset/' + password).then(response => {
+            Put.resetPassword(password).then(response => {
+            // request.put('/user/reset/' + password).then(response => {
                 if (response.data == true) {
-                    
                     userStore.removeEmail(RetrievePasswordEmail as Email)
                     ElMessageBox.alert('密码重置成功,快去去登录吧!', '重置成功', {
                         confirmButtonText: '去登录',

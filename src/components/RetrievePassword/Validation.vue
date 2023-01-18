@@ -26,6 +26,7 @@ import { useIntervalFn } from '@vueuse/core'
 import { ElForm, ElFormItem, ElInput, ElButton, type FormInstance, ElMessage } from 'element-plus';
 import request from '@/utils/request';
 import { useUserStore } from '@/store/store';
+import { Get } from '@/utils/api';
 
 const validationForm = ref<FormInstance>()
 const validationUser = ref({ validationCode: '' })
@@ -96,7 +97,8 @@ function nextResetPassword() {
     validationForm.value?.validate((valid)=>{
         if (valid) {
             const code = validationUser.value.validationCode
-            request.get('/user/verification/' + code).then(response=>{
+            Get.retrieveVerification(code).then(response=>{
+            // request.get('/user/verification/' + code).then(response=>{
                 if (response.data == true){
                     
                     emits('ResetPassword')
